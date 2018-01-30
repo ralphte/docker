@@ -2,4 +2,4 @@
 #
 #
 #
-/opt/Ombi/Ombi
+/opt/Ombi/Ombi --storage ${STORAGE}
