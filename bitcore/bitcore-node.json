@@ -1,0 +1,27 @@
+{
+  "network": "livenet",
+  "port": 3001,
+  "services": [
+    "bitcoind",
+    "insight-api",
+    "web",
+    "insight-ui"
+  ],
+  "servicesConfig": {
+    "bitcoind": {
+      "spawn": {
+        "datadir": "./data",
+        "exec": "/root/bitcore/node_modules/bitcore-node/bin/bitcoind"
+      }
+    },
+    "insight-api": {
+      "routePrefix": "api",
+      "enableCache": true,
+      "disableRateLimiter": true
+    },
+    "insight-ui": {
+      "apiPrefix": "api",
+      "routePrefix": ""
+    }
+  }
+}
