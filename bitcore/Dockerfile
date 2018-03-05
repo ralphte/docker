@@ -1,12 +1,12 @@
 FROM ubuntu
-ARG NODE_VERSION=4.8.0
+ARG NODE_VERSION=8.9.4
 ENV NETWORK=livenet
 ENV INTERNAL_SERVICE=bitcoin-service.bitcoin-service
 EXPOSE 3001
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && apt-get install -y libzmq3-dev curl python git build-essential
 ENV NVM_DIR /usr/local/nvm
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash \
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash \
     && source $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
