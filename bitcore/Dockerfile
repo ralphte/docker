@@ -17,7 +17,7 @@ RUN ln -s $(which node) /usr/bin/nodejs
 RUN npm install -g grunt-cli
 RUN npm install -g yarn
 WORKDIR /root
-RUN git clone https://github.com/rehive/bitcore.git
+RUN git clone https://github.com/bitpay/bitcore.git
 WORKDIR /root/bitcore/
 RUN yarn
 WORKDIR /root
