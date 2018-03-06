@@ -1,5 +1,5 @@
 FROM ubuntu
-ARG NODE_VERSION=8.9.4
+ARG NODE_VERSION=4.8.0
 ENV NETWORK=livenet
 ENV INTERNAL_SERVICE=bitcoin-service.bitcoin-service
 EXPOSE 3001
@@ -17,7 +17,7 @@ RUN ln -s $(which node) /usr/bin/nodejs
 RUN npm install -g grunt-cli
 RUN npm install -g yarn
 WORKDIR /root
-RUN git clone https://github.com/bitpay/bitcore.git
+RUN git clone https://github.com/satoshilabs/bitcore
 WORKDIR /root/bitcore/
 RUN yarn
 WORKDIR /root
