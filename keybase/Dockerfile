@@ -3,6 +3,7 @@ FROM buildpack-deps:jessie-curl
 # Install dependencies
 RUN apt-get update && apt-get install -y \
 	fuse \
+	golang-go\
 	libappindicator1 \
 	gconf-service \
 	gconf2-common \
