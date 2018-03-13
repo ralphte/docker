@@ -28,16 +28,13 @@ RUN curl -O https://prerelease.keybase.io/keybase_amd64.deb.sig \
 RUN groupadd -g 1000 keybase \
 	&& useradd --create-home -g keybase -u 1000 keybase 
 
-# Make Go Root
-USER keybase
-RUN mkdir /home/keybase/go
-ENV GOPATH=$HOME/go
-
 # Cleanup
 RUN rm -r /var/lib/apt/lists/* \
 	&& rm keybase_amd64.deb*
 
 USER keybase
+RUN mkdir /home/keybase/go
+ENV GOPATH=$HOME/go
 WORKDIR /home/keybase
 CMD ["bash"]
 
