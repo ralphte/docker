@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
 	gconf2-common \
 	libdbus-glib-1-2 \ 
 	libgconf-2-4 psmisc \
+	git \
 	--no-install-recommends
 
 # Get and verify Keybase.io's code signing key
@@ -26,6 +27,11 @@ RUN curl -O https://prerelease.keybase.io/keybase_amd64.deb.sig \
 #Create group, user
 RUN groupadd -g 1000 keybase \
 	&& useradd --create-home -g keybase -u 1000 keybase 
+
+# Make Go Root
+USER keybase
+RUN mkdir /home/keybase/go
+ENV GOPATH=$HOME/go
 
 # Cleanup
 RUN rm -r /var/lib/apt/lists/* \
