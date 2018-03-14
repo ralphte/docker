@@ -1,16 +1,22 @@
-FROM buildpack-deps:jessie-curl
+FROM ubuntu:16.04
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
 	fuse \
-	golang-go\
+	software-properties-common \ 
+	python-software-properties \
 	libappindicator1 \
 	gconf-service \
 	gconf2-common \
 	libdbus-glib-1-2 \ 
 	libgconf-2-4 psmisc \
 	git \
+	curl \
 	--no-install-recommends
+
+RUN add-apt-repository ppa:gophers/archive && apt-get update && apt-get install -y \
+	golang-1.10-go
+
 
 # Get and verify Keybase.io's code signing key
 RUN curl https://keybase.io/docs/server_security/code_signing_key.asc | \
@@ -34,7 +40,7 @@ RUN rm -r /var/lib/apt/lists/* \
 
 USER keybase
 RUN mkdir /home/keybase/go
-ENV GOPATH=$HOME/go
+ENV GOPATH=/home/keybase/go
 WORKDIR /home/keybase
 CMD ["bash"]
 
