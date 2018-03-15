@@ -3,8 +3,6 @@ FROM ubuntu:16.04
 # Install dependencies
 RUN apt-get update && apt-get install -y \
 	fuse \
-	software-properties-common \ 
-	python-software-properties \
 	libappindicator1 \
 	gconf-service \
 	gconf2-common \
@@ -13,10 +11,6 @@ RUN apt-get update && apt-get install -y \
 	git \
 	curl \
 	--no-install-recommends
-
-# Install GO 1.10
-RUN add-apt-repository ppa:gophers/archive && apt-get update && apt-get install -y \
-	golang-1.10-go
 
 # Get and verify Keybase.io's code signing key
 RUN curl https://keybase.io/docs/server_security/code_signing_key.asc | \
