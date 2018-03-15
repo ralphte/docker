@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
 	curl \
 	--no-install-recommends
 
+# Install GO 1.10
 RUN add-apt-repository ppa:gophers/archive && apt-get update && apt-get install -y \
 	golang-1.10-go
 
@@ -41,6 +42,8 @@ RUN rm -r /var/lib/apt/lists/* \
 USER keybase
 RUN mkdir /home/keybase/go
 ENV GOPATH=/home/keybase/go
+ENV PATH=$PATH:/usr/lib/go-1.10/bin
+ENV GOROOT=/usr/lib/go-1.10/
 WORKDIR /home/keybase
 CMD ["bash"]
 
