@@ -34,7 +34,6 @@ RUN rm -r /var/lib/apt/lists/* \
 
 
 USER keybase
-RUN mkdir /home/keybase/go
 WORKDIR /home/keybase
 
 RUN run_keybase
