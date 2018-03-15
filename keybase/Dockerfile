@@ -18,7 +18,6 @@ RUN apt-get update && apt-get install -y \
 RUN add-apt-repository ppa:gophers/archive && apt-get update && apt-get install -y \
 	golang-1.10-go
 
-
 # Get and verify Keybase.io's code signing key
 RUN curl https://keybase.io/docs/server_security/code_signing_key.asc | \
 	gpg --import \
@@ -39,12 +38,9 @@ RUN groupadd -g 1000 keybase \
 RUN rm -r /var/lib/apt/lists/* \
 	&& rm keybase_amd64.deb*
 
+
 USER keybase
 RUN mkdir /home/keybase/go
-ENV GOPATH=/home/keybase/go
-ENV PATH=$PATH:/usr/lib/go-1.10/bin
-ENV GOROOT=/usr/lib/go-1.10/
 WORKDIR /home/keybase
-CMD ["bash"]
 
 RUN run_keybase
