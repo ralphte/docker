@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
 	libgconf-2-4 psmisc \
 	git \
 	curl \
+	ca-certificates \
 	--no-install-recommends
 
 # Get and verify Keybase.io's code signing key
