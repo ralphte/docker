@@ -1,5 +1,4 @@
-FROM alpine
-RUN apk add --no-cache ca-certificates mysql-client php7
+FROM nextcloud:apache
 
 # Get restic executable
 ENV RESTIC_VERSION=0.9.4
