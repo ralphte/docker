@@ -7,7 +7,7 @@ RUN apt-get update; \
 # Get restic executable
 ENV RESTIC_VERSION=0.9.4
 RUN wget -P /tmp/ https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/restic_${RESTIC_VERSION}_linux_amd64.bz2
-RUN bzip2 -d /tmp/restic_${RESTIC_VERSION}_linux_amd64.bz2 && mv restic_${RESTIC_VERSION}_linux_amd64 /bin/restic && chmod +x /bin/restic
+RUN bzip2 -d /tmp/restic_${RESTIC_VERSION}_linux_amd64.bz2 && mv /tmp/restic_${RESTIC_VERSION}_linux_amd64 /bin/restic && chmod +x /bin/restic
 
 RUN mkdir -p /mnt/restic /var/spool/cron/crontabs /var/log
 
