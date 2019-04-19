@@ -1,5 +1,9 @@
 FROM nextcloud:apache
 
+RUN apt-get update; \
+    apt-get install -y --no-install-recommends \
+    wget
+
 # Get restic executable
 ENV RESTIC_VERSION=0.9.4
 RUN wget https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/restic_${RESTIC_VERSION}_linux_amd64.bz2 /
