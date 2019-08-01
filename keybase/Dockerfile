@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
 	libgconf-2-4 psmisc \
 	git \
 	curl \
+	lsof \	
 	ca-certificates \
 	--no-install-recommends
 
