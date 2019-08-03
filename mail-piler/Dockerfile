@@ -32,3 +32,4 @@ RUN crontab /tmp/piler.cron
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 EXPOSE 25/tcp
 EXPOSE 80/tcp
+VOLUME /usr/local/etc/piler /var/piler
