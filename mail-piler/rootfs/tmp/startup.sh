@@ -11,14 +11,14 @@ basedir=${script_path%/*}
 script_name=${script_path##*/}
 
 DATAROOTDIR="/usr/share"
-SYSCONFDIR="/usr/local/etc"
-SPHINXCFG="/usr/local/etc/piler/sphinx.conf"
+SYSCONFDIR="/etc"
+SPHINXCFG="/etc/piler/sphinx.conf"
 PILER_HOST=${PILER_HOST:-archive.yourdomain.com}
-PILER_CONF="/usr/local/etc/piler/piler.conf"
-PILER_PEM="/usr/local/etc/piler/piler.pem"
-CONFIG_SITE_PHP="/usr/local/etc/piler/config-site.php"
-WAIT_FOR_IT="/usr/local/etc/piler/wait.sh"
-PILER_MYSQL_CNF="/usr/local/etc/piler/.my.cnf"
+PILER_CONF="/etc/piler/piler.conf"
+PILER_PEM="/etc/piler/piler.pem"
+CONFIG_SITE_PHP="/etc/piler/config-site.php"
+WAIT_FOR_IT="/usr/share/piler/wait.sh"
+PILER_MYSQL_CNF="/etc/piler/.my.cnf"
 SSL_CERT_DATA="/C=US/ST=Denial/L=Springfield/O=Dis/CN=${PILER_HOSTNAME}"
 
 wait_for_sql() {
@@ -48,7 +48,7 @@ update_config_files() {
           -e "s/pemfile=/pemfile=\/etc\/piler\/piler.pem/" > "$PILER_CONF"
 
       chmod 600 "$PILER_CONF"
-      chown $PILER_USER:$PILER_USER /usr/local/etc/piler/piler.conf
+      chown $PILER_USER:$PILER_USER /etc/piler/piler.conf
    fi
 
    sed -i -e '/\$config\['\''SITE_NAME'\''\]/ s/= .*/= '\'''${PILER_HOSTNAME}''\'';/' "$CONFIG_SITE_PHP"
@@ -81,12 +81,15 @@ initialize_piler_data() {
       mysql --defaults-file="$PILER_MYSQL_CNF" "$MYSQL_DATABASE" < /usr/share/piler/db-mysql.sql
    fi
 
-   echo "Restarting searchd"
-   supervisorctl restart searchd
    [[ -f /var/piler/sphinx/main1.spp ]] || su $PILER_USER -c "indexer --all --config ${SPHINXCFG}"
+}
 
+start_supervisored() {
+   echo "Starting Supervisored"
+   /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 }
 
 wait_for_sql
 update_config_files
 initialize_piler_data
+start_supervisored
