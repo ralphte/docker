@@ -1,7 +1,9 @@
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND noninteractive
 ENV PILER_USER piler
+ENV SPHINX_BIN_TARGZ sphinx-3.1.1-bin.tar.gz
 ENV PILER_DEB https://bitbucket.org/jsuto/piler/downloads/piler_1.3.5~bionic-f2e4cb1_amd64.deb
+ENV SPHINX_DOWNLOAD_URL https://sphinxsearch.com/files/sphinx-3.1.1-612d99f-linux-amd64.tar.gz
 
 RUN \
 # Update and get dependencies
@@ -28,17 +30,22 @@ RUN \
         php-pdo \
         poppler-utils \ 
         python-mysqldb \
-        sphinxsearch \ 
         sysstat \ 
         tnef \ 
         unrtf \
         libmariadb-dev \
         supervisor \
         inetutils-syslogd \
+        wget \
     && \  
 # Install Piler
     curl -J -L -o /tmp/piler.deb "https://bitbucket.org/jsuto/piler/downloads/piler_1.3.5~bionic-f2e4cb1_amd64.deb" && \
     dpkg -i /tmp/piler.deb && \
+# Install Sphinxsearch
+    wget --no-check-certificate -q -O ${SPHINX_BIN_TARGZ} ${SPHINX_DOWNLOAD_URL} && \
+    tar zxvf ${SPHINX_BIN_TARGZ} && \
+    rm -f ${SPHINX_BIN_TARGZ} && \
+    cp sphinx-3.1.1/bin/* /usr/bin/ && \
 # Cleanup
     apt-get -y autoremove && \
     apt-get -y clean && \

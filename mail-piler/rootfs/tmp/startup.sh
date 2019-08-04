@@ -18,6 +18,7 @@ PILER_HOST=${PILER_HOST:-archive.yourdomain.com}
 PILER_CONF="/etc/piler/piler.conf"
 PILER_PEM="/etc/piler/piler.pem"
 CONFIG_SITE_PHP="/etc/piler/config-site.php"
+CONFIG_PHP="/var/piler/www/config.php"
 WAIT_FOR_IT="/usr/share/piler/wait.sh"
 PILER_MYSQL_CNF="/etc/piler/.my.cnf"
 SSL_CERT_DATA="/C=US/ST=Denial/L=Springfield/O=Dis/CN=${PILER_HOSTNAME}"
@@ -37,7 +38,7 @@ update_config_files() {
    echo "Done."
 
    if [[ ! -f "$PILER_CONF" ]]; then
-
+      echo "Updating piler.conf configuration"
       pilerconf | grep -v mysqlsocket | \
       sed -e "s/tls_enable=0/tls_enable=1/g" \
           -e "s/hostid=mailarchiver/hostid=${PILER_HOSTNAME}/g" \
@@ -53,11 +54,15 @@ update_config_files() {
       chown $PILER_USER:$PILER_USER /etc/piler/piler.conf
    fi
 
+   echo "Updating piler PHP configuration"
    sed -i -e '/\$config\['\''SITE_NAME'\''\]/ s/= '\''HOSTNAME'\'';/= '\'''${PILER_HOSTNAME}''\'';/' "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''DB_DATABASE'\''\]/ s/= .*/= '\'''${MYSQL_DATABASE}''\'';/' "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''DB_PASSWORD'\''\]/ s/= .*/= '\'''${MYSQL_PASSWORD}''\'';/' "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''DB_HOSTNAME'\''\]/ s/= .*/= '\'''${MYSQL_HOSTNAME}''\'';/' "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''DB_USERNAME'\''\]/ s/= .*/= '\'''${MYSQL_USERNAME}''\'';/' "$CONFIG_SITE_PHP"
+   sed -i "s%^\$config\['DECRYPT_BINARY'\].*%\$config\['DECRYPT_BINARY'\] = '/usr/bin/pilerget';%" "$CONFIG_PHP"
+   sed -i "s%^\$config\['DECRYPT_ATTACHMENT_BINARY'\].*%\$config\['DECRYPT_ATTACHMENT_BINARY'\] = '/usr/bin/pileraget';%" "$CONFIG_PHP"
+   sed -i "s%^\$config\['PILER_BINARY'\].*%\$config\['PILER_BINARY'\] = '/usr/sbin/piler';%" "$CONFIG_PHP"
 
    make_certificate
 }
