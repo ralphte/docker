@@ -51,7 +51,7 @@ update_config_files() {
       chown $PILER_USER:$PILER_USER /etc/piler/piler.conf
    fi
 
-   sed -i -e '/\$config\['\''SITE_NAME'\''\]/ s/= .*/= '\'''${PILER_HOSTNAME}''\'';/' "$CONFIG_SITE_PHP"
+   sed -i -e '/\$config\['\''SITE_NAME'\''\]/ s/= HOSTNAME /= '\'''${PILER_HOSTNAME}''\'';/' "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''DB_DATABASE'\''\]/ s/= .*/= '\'''${MYSQL_DATABASE}''\'';/' "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''DB_PASSWORD'\''\]/ s/= .*/= '\'''${MYSQL_PASSWORD}''\'';/' "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''DB_HOSTNAME'\''\]/ s/= .*/= '\'''${MYSQL_HOSTNAME}''\'';/' "$CONFIG_SITE_PHP"
