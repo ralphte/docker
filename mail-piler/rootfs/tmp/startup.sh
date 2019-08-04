@@ -41,6 +41,7 @@ update_config_files() {
       sed -e "s/tls_enable=0/tls_enable=1/g" \
           -e "s/hostid=mailarchiver/hostid=${PILER_HOSTNAME}/g" \
           -e "s/mysqlport=0/mysqlport=3306/" \
+          -e "s/default_retention_days=2557/default_retention_days=${PILER_RETENTION:-2557}/"
           -e "s/mysqlpwd=/mysqlpwd=${MYSQL_PASSWORD}/" \
           -e "s/mysqlhost=/mysqlhost=${MYSQL_HOSTNAME}/" \
           -e "s/mysqluser=piler/mysqluser=${MYSQL_USERNAME}/" \
