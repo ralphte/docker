@@ -48,10 +48,13 @@ RUN \
 
 COPY rootfs /
 RUN \
-# Move Files
+# Make directory
+    mkdir /run/php/ && \
+# Move files
     mv /tmp/startup.sh /usr/share/piler/startup.sh && \
     mv /tmp/wait.sh /usr/share/piler/wait.sh && \
     mv /tmp/db-mysql.sql /usr/share/piler/db-mysql.sql && \
+    mv /tmp/config-site.php /etc/piler/config-site.php && \
 # Change permissions
     chmod +x /usr/share/piler/startup.sh &&\
     chmod +x /usr/share/piler/wait.sh 
