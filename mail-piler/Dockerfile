@@ -65,7 +65,7 @@ RUN \
 # Change permissions
     chmod +x /usr/share/piler/startup.sh &&\
     chmod +x /usr/share/piler/wait.sh 
-RUN crontab /tmp/piler.cron
+RUN crontab -u $PILER_USER /usr/share/piler/piler.cron
 EXPOSE 25/tcp
 EXPOSE 80/tcp
 
