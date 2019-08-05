@@ -11,6 +11,26 @@ RUN \
     apt-get update \
 	&& apt-get -y dist-upgrade \
 	&& apt-get -y install \
+        openssl \ 
+        php7.2-cli \
+        php7.2-cgi \ 
+        php7.2-mysql \ 
+        php7.2-fpm \ 
+        php7.2-zip \ 
+        php7.2-ldap \
+        php7.2-gd \ 
+        php7.2-curl \ 
+        php7.2-xml \ 
+        php7.2-memcache \
+        php7.2-pdo \
+        sudo \
+        libodbc1 \
+        libpq5 \
+        libzip4 \
+        libtre5 \
+        libwrap0 \
+        libmariadb3 \ 
+        python \
         curl \
         nginx \
         procps \
@@ -22,13 +42,6 @@ RUN \
         libwrap0-dev \ 
         libzip-dev \
         catdoc \
-        php-curl \
-        php-fpm \
-        php-gd \
-        php-ldap \
-        php-memcache \
-        php-mysql \ 
-        php-pdo \
         poppler-utils \ 
         python-mysqldb \
         sysstat \ 
