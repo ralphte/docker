@@ -26,9 +26,14 @@ PILER_MYSQL_CNF="/etc/piler/.my.cnf"
 SSL_CERT_DATA="/C=US/ST=Denial/L=Springfield/O=Dis/CN=${PILER_HOSTNAME}"
 
 add_user(){
-   echo "Adding piler user"
-   addgroup --gid "$PGID" "$PILER_USER" && \
-   useradd -ms /bin/bash -g "$PILER_USER" -u "$PUID" "$PILER_USER" 
+   getent passwd $PILER_USER > /dev/null 2&>1
+   if [ $? -eq 0 ]; then
+      echo "user exists"
+   else
+      echo "Adding piler user"
+      addgroup --gid "$PGID" "$PILER_USER" && \
+      useradd -ms /bin/bash -g "$PILER_USER" -u "$PUID" "$PILER_USER" 
+   fi
 }
 
 install_piler(){
