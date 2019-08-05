@@ -26,13 +26,12 @@ PILER_MYSQL_CNF="/etc/piler/.my.cnf"
 SSL_CERT_DATA="/C=US/ST=Denial/L=Springfield/O=Dis/CN=${PILER_HOSTNAME}"
 
 add_user(){
-   getent passwd $PILER_USER > /dev/null 2&>1
-   if [ $? -eq 0 ]; then
-      echo "user exists"
-   else
+   if [ -z "$(getent passwd $PILER_USER)" ]; then
       echo "Adding piler user"
       addgroup --gid "$PGID" "$PILER_USER" && \
       useradd -ms /bin/bash -g "$PILER_USER" -u "$PUID" "$PILER_USER" 
+   else
+       echo "user $PILER_USER exists"
    fi
 }
 
@@ -121,10 +120,10 @@ start_supervisored() {
    /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 }
 
-wait_for_sql
+#wait_for_sql
 add_user
 install_piler
-setup_cron
-update_config_files
-initialize_piler_data
-start_supervisored
+# setup_cron
+# update_config_files
+# initialize_piler_data
+# start_supervisored
