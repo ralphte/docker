@@ -120,10 +120,10 @@ start_supervisored() {
    /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 }
 
-#wait_for_sql
+wait_for_sql
 add_user
 install_piler
-# setup_cron
-# update_config_files
-# initialize_piler_data
-# start_supervisored
+setup_cron
+update_config_files
+initialize_piler_data
+start_supervisored
