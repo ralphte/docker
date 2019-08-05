@@ -52,13 +52,17 @@ wait_for_sql() {
 }
 
 update_config_files() {
-   printf "[mysql]\nhost = ${MYSQL_HOSTNAME}\nuser = ${MYSQL_USERNAME}\npassword = ${MYSQL_PASSWORD}\n\n[mysqldump]\nhost = ${MYSQL_HOSTNAME}\nuser = ${MYSQL_USERNAME}\npassword = ${MYSQL_PASSWORD}\n" > "$PILER_MYSQL_CNF"
-   chown piler:piler "$PILER_MYSQL_CNF"
-   chmod 400 "$PILER_MYSQL_CNF"
+   if [[ ! -f "$PILER_MYSQL_CNF" ]]; then
+      printf "[mysql]\nhost = ${MYSQL_HOSTNAME}\nuser = ${MYSQL_USERNAME}\npassword = ${MYSQL_PASSWORD}\n\n[mysqldump]\nhost = ${MYSQL_HOSTNAME}\nuser = ${MYSQL_USERNAME}\npassword = ${MYSQL_PASSWORD}\n" > "$PILER_MYSQL_CNF"
+      chown piler:piler "$PILER_MYSQL_CNF"
+      chmod 400 "$PILER_MYSQL_CNF"
+   fi
 
-   echo "Updating sphinx configuration"
-   sed -e "s%MYSQL_HOSTNAME%$MYSQL_HOSTNAME%" -e "s%MYSQL_DATABASE%$MYSQL_DATABASE%" -e "s%MYSQL_USERNAME%$MYSQL_USERNAME%" -e "s%MYSQL_PASSWORD%$MYSQL_PASSWORD%" $SYSCONFDIR/piler/sphinx.conf.dist > $SPHINXCFG
-   echo "Done."
+   if [[ ! -f "$SPHINXCFG" ]]; then
+      echo "Updating sphinx configuration"
+      sed -e "s%MYSQL_HOSTNAME%$MYSQL_HOSTNAME%" -e "s%MYSQL_DATABASE%$MYSQL_DATABASE%" -e "s%MYSQL_USERNAME%$MYSQL_USERNAME%" -e "s%MYSQL_PASSWORD%$MYSQL_PASSWORD%" $SYSCONFDIR/piler/sphinx.conf.dist > $SPHINXCFG
+      echo "Done."
+   fi
 
    if [[ ! -f "$PILER_CONF" ]]; then
       echo "Updating piler.conf configuration"
@@ -78,7 +82,7 @@ update_config_files() {
    fi
 
    echo "Updating piler PHP configuration"
-   mv /tmp/config-site.php "$CONFIG_SITE_PHP"
+   cp /usr/share/piler/config-site.php "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''SITE_NAME'\''\]/ s/= '\''HOSTNAME'\'';/= '\'''${PILER_HOSTNAME}''\'';/' "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''DB_DATABASE'\''\]/ s/= .*/= '\'''${MYSQL_DATABASE}''\'';/' "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''DB_PASSWORD'\''\]/ s/= .*/= '\'''${MYSQL_PASSWORD}''\'';/' "$CONFIG_SITE_PHP"

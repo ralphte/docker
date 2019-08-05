@@ -58,6 +58,7 @@ RUN \
     mkdir /usr/share/piler && \
 # Move files
     mv /tmp/startup.sh /usr/share/piler/startup.sh && \
+    mv /tmp/config-site.php /usr/share/piler/config-site.php && \
     mv /tmp/wait.sh /usr/share/piler/wait.sh && \
     mv /tmp/db-mysql.sql /usr/share/piler/db-mysql.sql && \
 # Change permissions
