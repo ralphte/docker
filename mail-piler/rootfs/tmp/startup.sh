@@ -10,6 +10,8 @@ script_path=$(readlink -f "$0")
 basedir=${script_path%/*}
 script_name=${script_path##*/}
 
+PUID=${PUID:-911}
+PGID=${PGID:-911}
 DATAROOTDIR="/usr/share"
 SYSCONFDIR="/etc"
 SPHINXCFG="/etc/piler/sphinx.conf"
@@ -23,9 +25,15 @@ WAIT_FOR_IT="/usr/share/piler/wait.sh"
 PILER_MYSQL_CNF="/etc/piler/.my.cnf"
 SSL_CERT_DATA="/C=US/ST=Denial/L=Springfield/O=Dis/CN=${PILER_HOSTNAME}"
 
+add_user(){
+   echo "Adding piler user"
+   addgroup --gid "$PGID" "$PILER_USER" && \
+   useradd -ms /bin/bash -g "$PILER_USER" -u "$PUID" "$PILER_USER" 
+}
+
 install_piler(){
    echo "Installing piler"
-    curl -J -L -o /tmp/piler.deb "https://bitbucket.org/jsuto/piler/downloads/piler_1.3.5~bionic-f2e4cb1_amd64.deb" && \
+    curl -J -L -o /tmp/piler.deb "$PILER_DEB" && \
     dpkg -i /tmp/piler.deb
 }
 
@@ -109,6 +117,7 @@ start_supervisored() {
 }
 
 wait_for_sql
+add_user
 install_piler
 setup_cron
 update_config_files

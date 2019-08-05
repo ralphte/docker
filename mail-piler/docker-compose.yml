@@ -16,7 +16,9 @@ services:
       - ./sphinx:/var/piler/sphinx
       - ./config:/etc/piler
     environment: 
-      PILER_HOSTNAME: "piler.thedarkcloud.net"
+      PUID: "1004" 
+      PGID: "1004"
+      PILER_HOSTNAME: "localhost"
       PILER_RETENTION: "3650"
       MYSQL_HOSTNAME: "piler-db"
       MYSQL_DATABASE: "piler"
