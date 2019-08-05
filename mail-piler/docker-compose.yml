@@ -14,6 +14,7 @@ services:
     volumes:
       - ./store:/var/piler/store/00
       - ./sphinx:/var/piler/sphinx
+      - ./config:/etc/piler
     environment: 
       PILER_HOSTNAME: "piler.thedarkcloud.net"
       PILER_RETENTION: "3650"

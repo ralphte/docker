@@ -23,6 +23,17 @@ WAIT_FOR_IT="/usr/share/piler/wait.sh"
 PILER_MYSQL_CNF="/etc/piler/.my.cnf"
 SSL_CERT_DATA="/C=US/ST=Denial/L=Springfield/O=Dis/CN=${PILER_HOSTNAME}"
 
+install_piler(){
+   echo "Installing piler"
+    curl -J -L -o /tmp/piler.deb "https://bitbucket.org/jsuto/piler/downloads/piler_1.3.5~bionic-f2e4cb1_amd64.deb" && \
+    dpkg -i /tmp/piler.deb
+}
+
+setup_cron(){
+   echo "Adding cron job"
+   crontab -u $PILER_USER /usr/share/piler/piler.cron
+}
+
 wait_for_sql() {
    echo "Waiting for the SQL database to come online"
    "$WAIT_FOR_IT" "${MYSQL_HOSTNAME}:3306 -s"
@@ -55,6 +66,7 @@ update_config_files() {
    fi
 
    echo "Updating piler PHP configuration"
+   mv /tmp/config-site.php "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''SITE_NAME'\''\]/ s/= '\''HOSTNAME'\'';/= '\'''${PILER_HOSTNAME}''\'';/' "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''DB_DATABASE'\''\]/ s/= .*/= '\'''${MYSQL_DATABASE}''\'';/' "$CONFIG_SITE_PHP"
    sed -i -e '/\$config\['\''DB_PASSWORD'\''\]/ s/= .*/= '\'''${MYSQL_PASSWORD}''\'';/' "$CONFIG_SITE_PHP"
@@ -97,6 +109,8 @@ start_supervisored() {
 }
 
 wait_for_sql
+install_piler
+setup_cron
 update_config_files
 initialize_piler_data
 start_supervisored
