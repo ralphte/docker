@@ -6,11 +6,17 @@ RUN apt-get update && apt-get install -y \
 	libappindicator1 \
 	gconf-service \
 	gconf2-common \
-	libdbus-glib-1-2 \ 
-	libgconf-2-4 psmisc \
+	libdbus-glib-1-2 \
+	libgconf-2-4 \
+	psmisc \
+	libasound2 \
+	libnss3 \
+	libxss1 \
+	libxtst6 \
+	libgtk-3-0 \
 	git \
 	curl \
-	lsof \	
+	lsof \
 	ca-certificates \
 	--no-install-recommends
 
