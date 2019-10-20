@@ -2,4 +2,4 @@
 #
 
 # Run xteve
-/home/xteve/xteve
+/home/xteve/xteve -config /config

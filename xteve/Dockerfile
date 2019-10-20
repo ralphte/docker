@@ -41,12 +41,16 @@ ENV Version=2.1.0
 WORKDIR /home/xteve
 COPY --from=builder /go/src/github.com/xteve-project/xTeVe .
 COPY docker-entrypoint.sh /home/xteve/
+
+
 USER root
+RUN mkdir /config
+RUN chown xteve:xteve /config
 RUN chmod +x /home/xteve/docker-entrypoint.sh
 RUN chown xteve:xteve /home/xteve/docker-entrypoint.sh
 USER xteve
 
-VOLUME [/home/xteve/.xteve/]
+VOLUME [/config]
 VOLUME [/tmp/xteve/]
 EXPOSE 34400
 
