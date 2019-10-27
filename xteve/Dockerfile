@@ -12,7 +12,7 @@ RUN go get github.com/koron/go-ssdp \
 WORKDIR $GOPATH/src/github.com/xteve-project/xTeVe
 
 # Fix Reverse Proxy
-RUN sed -i '319,323d' xteve.go
+# RUN sed -i '319,323d' xteve.go
 
 # Build xTeVe
 RUN go build xteve.go
