@@ -4,66 +4,15 @@ ENV PILER_USER piler
 ENV SPHINX_BIN_TARGZ sphinx-3.3.1-bin.tar.gz
 ENV PILER_HOSTNAME localhost
 ENV PILER_DEB https://bitbucket.org/jsuto/piler/downloads/piler_1.3.11-focal-5c2ceb1_amd64.deb
-ENV SPHINX_DOWNLOAD_URL hhttps://sphinxsearch.com/files/sphinx-3.3.1-b72d67b-linux-amd64.tar.gz
+ENV SPHINX_DOWNLOAD_URL https://sphinxsearch.com/files/sphinx-3.3.1-b72d67b-linux-amd64.tar.gz
 
 RUN \
 # Update and get dependencies
-    apt-get update \
-	&& apt-get -y dist-upgrade \
-	&& apt-get -y install \
-	rsyslog \ 
-	openssl \ 
-	php7.4-cli \ 
-	php7.4-cgi \ 
-	php7.4-mysql \ 
-	php7.4-fpm \ 
-	php7.4-zip \ 
-	php7.4-ldap \
-        php7.4-gd \ 
-        php7.4-curl \ 
-        php7.4-xml \ 
-        php7.4-memcached \ 
-	oppler-utils \
-	libzip5 \
-        libtre5 \
-	libmariadb-dev \ 
-	mariadb-client-core-10.3 
-	python3 \ 
-	python3-mysqldb \
-	ca-certificates \
-        sudo \
-        libodbc1 \
-        libpq5 \
-        libzip4 \
-        libtre5 \
-        libwrap0 \
-        libmariadb3 \ 
-        curl \
-        nginx \
-        procps \
-        cron \
-        mysql-client \
-        libtre-dev \
-        default-libmysqlclient-dev \
-        libssl-dev \ 
-        libwrap0-dev \ 
-        libzip-dev \
-        catdoc \
-        poppler-utils \ 
-        python-mysqldb \
-        sysstat \ 
-        tnef \ 
-        unrtf \
-        libmariadb-dev \
-        supervisor \
-        inetutils-syslogd \
-        wget \
-    && \ 
-# Install Sphinxsearch
-    wget --no-check-certificate -q -O ${SPHINX_BIN_TARGZ} ${SPHINX_DOWNLOAD_URL} && \
-    tar zxvf ${SPHINX_BIN_TARGZ} && \
-    rm -f ${SPHINX_BIN_TARGZ} && \
-    cp sphinx-3.1.1/bin/* /usr/bin/ && \
+    apt-get update && \
+    apt-get -y --no-install-recommends install \
+    apt-utils wget rsyslog openssl sysstat php7.4-cli php7.4-cgi php7.4-mysql php7.4-fpm php7.4-zip php7.4-ldap \
+    php7.4-gd php7.4-curl php7.4-xml php7.4-memcached catdoc unrtf poppler-utils nginx tnef sudo libzip5 \
+    libtre5 cron libmariadb-dev mariadb-client-core-10.3 python3 python3-mysqldb ca-certificates curl && \
 # Cleanup
     apt-get -y autoremove && \
     apt-get -y clean && \
@@ -71,10 +20,15 @@ RUN \
     rm -rf /tmp/* && \
     rm -rf /var/tmp/*
 
+# Install Sphinxsearch
+ RUN wget --no-check-certificate -q -O ${SPHINX_BIN_TARGZ} ${SPHINX_DOWNLOAD_URL} && \
+    tar zxvf ${SPHINX_BIN_TARGZ} && \
+    rm -f ${SPHINX_BIN_TARGZ} && \
+    cp sphinx-3.3.1/bin/* /usr/bin/
+
 COPY rootfs /
 RUN \
 # Make directory
-    mkdir /run/php/ && \
     mkdir /usr/share/piler && \
 # Move files
     mv /tmp/startup.sh /usr/share/piler/startup.sh && \
