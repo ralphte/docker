@@ -1,10 +1,10 @@
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND noninteractive
 ENV PILER_USER piler
-ENV SPHINX_BIN_TARGZ sphinx-3.1.1-bin.tar.gz
+ENV SPHINX_BIN_TARGZ sphinx-3.3.1-bin.tar.gz
 ENV PILER_HOSTNAME localhost
-ENV PILER_DEB https://bitbucket.org/jsuto/piler/downloads/piler_1.3.5~bionic-f2e4cb1_amd64.deb
-ENV SPHINX_DOWNLOAD_URL https://sphinxsearch.com/files/sphinx-3.1.1-612d99f-linux-amd64.tar.gz
+ENV PILER_DEB https://bitbucket.org/jsuto/piler/downloads/piler_1.3.11-focal-5c2ceb1_amd64.deb
+ENV SPHINX_DOWNLOAD_URL hhttps://sphinxsearch.com/files/sphinx-3.3.1-b72d67b-linux-amd64.tar.gz
 
 RUN \
 # Update and get dependencies
