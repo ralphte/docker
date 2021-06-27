@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND noninteractive
 ENV PILER_USER piler
 ENV SPHINX_BIN_TARGZ sphinx-3.3.1-bin.tar.gz
@@ -11,18 +11,26 @@ RUN \
     apt-get update \
 	&& apt-get -y dist-upgrade \
 	&& apt-get -y install \
-        openssl \ 
-        php7.2-cli \
-        php7.2-cgi \ 
-        php7.2-mysql \ 
-        php7.2-fpm \ 
-        php7.2-zip \ 
-        php7.2-ldap \
-        php7.2-gd \ 
-        php7.2-curl \ 
-        php7.2-xml \ 
-        php7.2-memcache \
-        php7.2-pdo \
+	rsyslog \ 
+	openssl \ 
+	php7.4-cli \ 
+	php7.4-cgi \ 
+	php7.4-mysql \ 
+	php7.4-fpm \ 
+	php7.4-zip \ 
+	php7.4-ldap \
+        php7.4-gd \ 
+        php7.4-curl \ 
+        php7.4-xml \ 
+        php7.4-memcached \ 
+	oppler-utils \
+	libzip5 \
+        libtre5 \
+	libmariadb-dev \ 
+	mariadb-client-core-10.3 
+	python3 \ 
+	python3-mysqldb \
+	ca-certificates \
         sudo \
         libodbc1 \
         libpq5 \
@@ -30,7 +38,6 @@ RUN \
         libtre5 \
         libwrap0 \
         libmariadb3 \ 
-        python \
         curl \
         nginx \
         procps \
